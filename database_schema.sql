@@ -163,6 +163,29 @@ CREATE TABLE invoice_items (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 5. SETTINGS
+-- 5. STOCK TRANSFER MODULE
+CREATE TABLE stock_transfers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    from_warehouse_id INT NOT NULL,
+    to_van_id INT NOT NULL,
+    transfer_date DATE NOT NULL,
+    reference_no VARCHAR(50) UNIQUE,
+    remarks TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (from_warehouse_id) REFERENCES warehouses(id),
+    FOREIGN KEY (to_van_id) REFERENCES vans(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE stock_transfer_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    transfer_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity DECIMAL(15,3) NOT NULL,
+    FOREIGN KEY (transfer_id) REFERENCES stock_transfers(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 6. SETTINGS
 CREATE TABLE settings (
     setting_key VARCHAR(100) PRIMARY KEY,
     setting_value TEXT
