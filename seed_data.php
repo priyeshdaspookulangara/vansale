@@ -43,6 +43,16 @@ try {
     // 8. Van Inventory (Initial Stock)
     $pdo->exec("INSERT INTO van_inventory (van_id, product_id, quantity) VALUES (1, 1, 100)");
 
+    // 9. Users (Hashed Passwords)
+    $adminHash = password_hash('admin123', PASSWORD_DEFAULT);
+    $accountantHash = password_hash('acc123', PASSWORD_DEFAULT);
+    $salesmanHash = password_hash('sales123', PASSWORD_DEFAULT);
+
+    $userStmt = $pdo->prepare("INSERT INTO users (username, email, password_hash, role, assigned_van_id) VALUES (?, ?, ?, ?, ?)");
+    $userStmt->execute(['admin', 'admin@erp.com', $adminHash, 'Super Admin', null]);
+    $userStmt->execute(['accountant', 'acc@erp.com', $accountantHash, 'Accountant', null]);
+    $userStmt->execute(['salesman1', 'sales@erp.com', $salesmanHash, 'Van Salesman', 1]);
+
     $pdo->commit();
     echo "Sample data seeded successfully.";
 

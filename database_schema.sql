@@ -186,6 +186,21 @@ CREATE TABLE stock_transfer_items (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 6. SETTINGS
+-- 6. AUTHENTICATION & RBAC MODULE
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    role ENUM('Super Admin', 'Accountant', 'Van Salesman') NOT NULL,
+    assigned_van_id INT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (assigned_van_id) REFERENCES vans(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 7. SETTINGS
 CREATE TABLE settings (
     setting_key VARCHAR(100) PRIMARY KEY,
     setting_value TEXT
