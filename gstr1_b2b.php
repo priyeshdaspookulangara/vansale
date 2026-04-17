@@ -5,8 +5,8 @@
  * GSTR-1 B2B Sales Report Interface.
  */
 
-require 'config.php';
-require 'GSTReportManager.php';
+require 'includes/config.php';
+require 'includes/GSTReportManager.php';
 
 $manager = new GSTReportManager($pdo);
 $startDate = $_GET['start_date'] ?? date('Y-m-01'); // First day of current month

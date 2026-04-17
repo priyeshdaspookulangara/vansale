@@ -5,8 +5,8 @@
  * Demonstrates how to use the SalesTransactionManager to process a spot sale.
  */
 
-require 'config.php';
-require 'SalesTransactionManager.php';
+require 'includes/config.php';
+require 'includes/SalesTransactionManager.php';
 
 try {
     $manager = new SalesTransactionManager($pdo);

@@ -5,8 +5,8 @@
  * Simple controller to handle form submissions from the index.php.
  */
 
-require 'config.php';
-require 'SalesTransactionManager.php';
+require 'includes/config.php';
+require 'includes/SalesTransactionManager.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {

@@ -5,8 +5,8 @@
  * Manual Voucher Entry UI.
  */
 
-require 'config.php';
-require 'ManualVoucherManager.php';
+require 'includes/config.php';
+require 'includes/ManualVoucherManager.php';
 
 $manager = new ManualVoucherManager($pdo);
 $heads = $pdo->query("SELECT id, name, code FROM account_heads ORDER BY name ASC")->fetchAll();

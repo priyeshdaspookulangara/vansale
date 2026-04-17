@@ -5,7 +5,7 @@
  * Populates sample data for demonstration.
  */
 
-require 'config.php';
+require 'includes/config.php';
 
 try {
     $pdo->beginTransaction();

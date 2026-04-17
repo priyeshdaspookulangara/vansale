@@ -5,8 +5,8 @@
  * Stock Transfer Management UI.
  */
 
-require 'config.php';
-require 'InventoryManager.php';
+require 'includes/config.php';
+require 'includes/InventoryManager.php';
 
 $manager = new InventoryManager($pdo);
 $transferId = $_GET['voucher_id'] ?? null;

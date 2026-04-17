@@ -10,7 +10,7 @@
  * - Role-based redirection.
  */
 
-require 'config.php';
+require 'includes/config.php';
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

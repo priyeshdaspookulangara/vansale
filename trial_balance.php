@@ -5,8 +5,8 @@
  * Trial Balance Report Interface.
  */
 
-require 'config.php';
-require 'AccountingReportManager.php';
+require 'includes/config.php';
+require 'includes/AccountingReportManager.php';
 
 $manager = new AccountingReportManager($pdo);
 $asOfDate = $_GET['as_of_date'] ?? date('Y-m-d');

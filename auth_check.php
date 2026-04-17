@@ -3,42 +3,33 @@
  * auth_check.php
  *
  * Reusable Session Protection Middleware.
- * Included at the top of every secured page.
  */
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-/**
- * Check if the user is logged in.
- * If not, kick them back to login.php.
- */
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php?error=unauthorized");
+    // Determine relative path to login.php
+    $currentPath = $_SERVER['PHP_SELF'];
+    $isNested = (str_contains($currentPath, '/admin/') || str_contains($currentPath, '/salesman/'));
+    $prefix = $isNested ? '../' : '';
+    header("Location: {$prefix}login.php?error=unauthorized");
     exit;
 }
 
-/**
- * Require a specific role to access the page.
- *
- * Usage: requireRole(['Super Admin', 'Accountant']);
- *
- * @param array $allowed_roles
- */
 function requireRole($allowed_roles) {
     if (!in_array($_SESSION['role'], $allowed_roles)) {
-        // Log unauthorized attempt?
-        die("<h1>403 Forbidden</h1><p>You do not have permission to access this page.</p><a href='/index.php'>Go Back</a>");
+        die("<h1>403 Forbidden</h1><p>You do not have permission to access this page.</p>");
     }
 }
 
-/**
- * Logout logic (can be required here or in a separate file).
- */
 if (isset($_GET['logout'])) {
     session_unset();
     session_destroy();
-    header("Location: login.php?msg=loggedout");
+    $currentPath = $_SERVER['PHP_SELF'];
+    $isNested = (str_contains($currentPath, '/admin/') || str_contains($currentPath, '/salesman/'));
+    $prefix = $isNested ? '../' : '../'; // Always go back if logging out from nested or root (simplified)
+    header("Location: login.php?msg=loggedout"); // Default to root login.php
     exit;
 }

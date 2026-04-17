@@ -5,8 +5,8 @@
  * Chart of Accounts (COA) Management Interface.
  */
 
-require 'config.php';
-require 'COAManager.php';
+require 'includes/config.php';
+require 'includes/COAManager.php';
 
 $manager = new COAManager($pdo);
 $groupsTree = $manager->getAccountGroupsTree();
