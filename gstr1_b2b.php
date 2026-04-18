@@ -1,3 +1,5 @@
+<?php require_once "auth_check.php"; ?>
+requireRole(["Super Admin", "Accountant"]);
 <?php
 /**
  * gstr1_b2b.php

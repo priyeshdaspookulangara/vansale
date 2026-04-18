@@ -1,3 +1,5 @@
+<?php require_once "auth_check.php"; ?>
+requireRole(["Super Admin", "Accountant"]);
 <?php
 /**
  * trial_balance.php

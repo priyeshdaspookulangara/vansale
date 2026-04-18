@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
 <?php
 require_once '../auth_check.php';
 requireRole(['Van Salesman', 'Super Admin']);
 ?>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,6 +21,10 @@ requireRole(['Van Salesman', 'Super Admin']);
 <nav class="navbar navbar-dark bg-primary mb-4">
     <div class="container-fluid">
         <span class="navbar-brand mb-0 h1">Van Sales ERP</span>
+        <div class="d-flex">
+            <span class="text-white-50 me-3 small">Salesman: <?= htmlspecialchars($_SESSION['username']) ?></span>
+            <a href="../auth_check.php?logout=1" class="btn btn-outline-light btn-sm">Logout</a>
+        </div>
     </div>
 </nav>
 
