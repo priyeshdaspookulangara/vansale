@@ -1,14 +1,7 @@
-<?php require_once "auth_check.php"; ?>
-requireRole(["Super Admin", "Accountant"]);
 <?php
-/**
- * trial_balance.php
- *
- * Trial Balance Report Interface.
- */
-
-require 'includes/config.php';
-require 'includes/AccountingReportManager.php';
+require_once 'includes/header.php';
+requireRole(['Super Admin', 'Accountant']);
+require_once 'includes/AccountingReportManager.php';
 
 $manager = new AccountingReportManager($pdo);
 $asOfDate = $_GET['as_of_date'] ?? date('Y-m-d');
@@ -18,49 +11,29 @@ $grandTotalDebit = 0;
 $grandTotalCredit = 0;
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trial Balance - Van Sales ERP</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .table-report th { background-color: #f1f3f5; }
-        .total-row { border-top: 2px solid #343a40; font-weight: bold; }
-    </style>
-</head>
-<body class="bg-light pb-5">
-
-<nav class="navbar navbar-dark bg-dark mb-4">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="index.php">Van Sales ERP</a>
-    </div>
-</nav>
-
-<div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Trial Balance Report</h2>
-        <form class="row g-2 align-items-center" method="GET">
-            <div class="col-auto">
-                <label class="small text-muted">As of Date:</label>
-                <input type="date" name="as_of_date" value="<?= htmlspecialchars($asOfDate) ?>" class="form-control form-control-sm">
-            </div>
-            <div class="col-auto align-self-end">
-                <button type="submit" class="btn btn-primary btn-sm">Refresh Report</button>
-            </div>
+<div class="page-header">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="h3 mb-0">Trial Balance</h1>
+            <p class="text-muted">Consolidated summary of all ledger balances.</p>
+        </div>
+        <form class="d-flex gap-2" method="GET">
+            <input type="date" name="as_of_date" value="<?= htmlspecialchars($asOfDate) ?>" class="form-control form-control-sm">
+            <button type="submit" class="btn btn-primary btn-sm">Refresh</button>
         </form>
     </div>
+</div>
 
-    <div class="card shadow-sm">
-        <div class="card-body">
+<div class="container-fluid px-4">
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-hover table-report">
-                    <thead>
+                <table class="table table-hover mb-0">
+                    <thead class="bg-light">
                         <tr>
                             <th>Account Code</th>
                             <th>Account Name</th>
-                            <th>Account Type</th>
+                            <th>Type</th>
                             <th class="text-end">Debit (₹)</th>
                             <th class="text-end">Credit (₹)</th>
                         </tr>
@@ -71,36 +44,31 @@ $grandTotalCredit = 0;
                             $grandTotalCredit += (float)$row['total_credit'];
                         ?>
                             <tr>
-                                <td><?= htmlspecialchars($row['account_code']) ?></td>
+                                <td><code class="text-dark"><?= htmlspecialchars($row['account_code']) ?></code></td>
                                 <td><?= htmlspecialchars($row['account_name']) ?></td>
-                                <td><span class="badge bg-secondary"><?= htmlspecialchars($row['account_type']) ?></span></td>
+                                <td><span class="badge bg-light text-dark border"><?= htmlspecialchars($row['account_type']) ?></span></td>
                                 <td class="text-end"><?= number_format($row['total_debit'], 2) ?></td>
                                 <td class="text-end"><?= number_format($row['total_credit'], 2) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
-                    <tfoot>
-                        <tr class="total-row">
-                            <td colspan="3" class="text-end">GRAND TOTAL</td>
+                    <tfoot class="bg-light fw-bold">
+                        <tr>
+                            <td colspan="3" class="text-end">TOTAL</td>
                             <td class="text-end"><?= number_format($grandTotalDebit, 2) ?></td>
                             <td class="text-end"><?= number_format($grandTotalCredit, 2) ?></td>
                         </tr>
                     </tfoot>
                 </table>
             </div>
-
-            <?php if (abs($grandTotalDebit - $grandTotalCredit) > 0.01): ?>
-                <div class="alert alert-warning mt-3">
-                    <strong>Warning:</strong> The Trial Balance is out of sync by <?= number_format(abs($grandTotalDebit - $grandTotalCredit), 2) ?>.
-                </div>
-            <?php else: ?>
-                <div class="alert alert-success mt-3 p-2">
-                    <small>Trial Balance is in balance.</small>
-                </div>
-            <?php endif; ?>
         </div>
     </div>
+
+    <?php if (abs($grandTotalDebit - $grandTotalCredit) > 0.01): ?>
+        <div class="alert alert-warning mt-3 border-0 shadow-sm"><i class="bi bi-exclamation-triangle-fill me-2"></i> Trial Balance is out of sync.</div>
+    <?php else: ?>
+        <div class="alert alert-success mt-3 border-0 shadow-sm text-center py-2"><i class="bi bi-check-circle-fill me-2"></i> Accounts are perfectly in balance.</div>
+    <?php endif; ?>
 </div>
 
-</body>
-</html>
+<?php require_once 'includes/footer.php'; ?>
