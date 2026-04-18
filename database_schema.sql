@@ -124,6 +124,17 @@ CREATE TABLE orders (
     FOREIGN KEY (van_id) REFERENCES vans(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE order_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity DECIMAL(15,3) NOT NULL,
+    unit_price DECIMAL(15,2) NOT NULL,
+    total_price DECIMAL(15,2) NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE invoices (
     id INT AUTO_INCREMENT PRIMARY KEY,
     order_id INT NULL, -- Optional, if converted from order
