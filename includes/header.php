@@ -87,6 +87,14 @@ $prefix = $isNested ? '../' : '';
                     <a href="<?= $prefix ?>admin/dashboard.php"><i class="material-icons">dashboard</i> Dashboard</a>
                 </li>
 
+                <div class="sidebar-heading">Master Data</div>
+                <li class="sidebar-item <?= str_contains($currentPath, 'products.php') ? 'active' : '' ?>">
+                    <a href="<?= $prefix ?>admin/products.php"><i class="material-icons">inventory_2</i> Products Master</a>
+                </li>
+                <li class="sidebar-item <?= str_contains($currentPath, 'categories.php') ? 'active' : '' ?>">
+                    <a href="<?= $prefix ?>admin/categories.php"><i class="material-icons">category</i> Categories</a>
+                </li>
+
                 <div class="sidebar-heading">Accounts & Finance</div>
                 <li class="sidebar-item <?= str_contains($currentPath, 'coa.php') ? 'active' : '' ?>">
                     <a href="<?= $prefix ?>coa.php"><i class="material-icons">account_tree</i> Chart of Accounts</a>
