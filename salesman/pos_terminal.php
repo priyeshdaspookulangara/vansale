@@ -18,11 +18,19 @@ requireRole(['Van Salesman', 'Super Admin']);
 </head>
 <body>
 
-<nav class="navbar navbar-dark bg-primary mb-4">
-    <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1">Van Sales ERP</span>
-        <div class="d-flex">
-            <span class="text-white-50 me-3 small">Salesman: <?= htmlspecialchars($_SESSION['username']) ?></span>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="#">Van Sales POS</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link active" href="pos_terminal.php">Spot Sale</a></li>
+                <li class="nav-item"><a class="nav-link" href="pre_order.php">Book Order</a></li>
+                <li class="nav-item"><a class="nav-link" href="order_list.php">Pending Orders</a></li>
+            </ul>
+            <div class="navbar-text text-white-50 me-3 small">Salesman: <?= htmlspecialchars($_SESSION['username']) ?></div>
             <a href="../auth_check.php?logout=1" class="btn btn-outline-light btn-sm">Logout</a>
         </div>
     </div>
