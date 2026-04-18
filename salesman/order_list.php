@@ -1,5 +1,8 @@
 <?php
-require_once '../auth_check.php';
+/**
+ * salesman/order_list.php
+ */
+require_once '../includes/header.php';
 requireRole(['Van Salesman', 'Super Admin']);
 require_once '../includes/config.php';
 require_once '../includes/OrderManager.php';
@@ -8,44 +11,45 @@ $manager = new OrderManager($pdo);
 $vanId = $_SESSION['assigned_van_id'] ?? 1;
 $orders = $manager->getPendingOrders($vanId);
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pending Orders - Van Sales ERP</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
 
-<nav class="navbar navbar-dark bg-dark mb-4">
+<div class="page-header">
     <div class="container-fluid">
-        <span class="navbar-brand">Pending Orders</span>
-        <a href="pos_terminal.php" class="btn btn-outline-light btn-sm">POS</a>
+        <h1 class="h3 mb-0">Pending Orders</h1>
+        <p class="text-muted">Track and fulfill pre-booked customer orders.</p>
     </div>
-</nav>
+</div>
 
-<div class="container">
+<div class="container-fluid px-4">
     <?php if (empty($orders)): ?>
-        <div class="text-center mt-5 text-muted">No pending orders for this van.</div>
+        <div class="card border-0 shadow-sm p-5 text-center text-muted">
+            <i class="bi bi-inbox fs-1 mb-3"></i>
+            <p>No pending orders for your van at the moment.</p>
+            <a href="pre_order.php" class="btn btn-primary btn-sm mx-auto" style="max-width: 200px;">Book New Order</a>
+        </div>
     <?php else: ?>
-        <?php foreach ($orders as $o): ?>
-            <div class="card mb-3 shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <h6 class="card-title"><?= htmlspecialchars($o['customer_name']) ?></h6>
-                        <span class="badge bg-warning text-dark">Pending</span>
-                    </div>
-                    <p class="small text-muted mb-2">Order Date: <?= $o['order_date'] ?></p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <strong>₹<?= number_format($o['total_amount'], 2) ?></strong>
-                        <button class="btn btn-sm btn-success">Fulfill Now</button>
+        <div class="row g-4">
+            <?php foreach ($orders as $o): ?>
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h6 class="card-title fw-bold mb-0"><?= htmlspecialchars($o['customer_name']) ?></h6>
+                                <span class="badge bg-warning text-dark small">Pending</span>
+                            </div>
+                            <div class="mb-3 small">
+                                <div class="text-muted"><i class="bi bi-calendar-event me-2"></i>Date: <?= $o['order_date'] ?></div>
+                                <div class="text-dark fw-bold mt-2"><i class="bi bi-currency-rupee me-1"></i><?= number_format($o['total_amount'], 2) ?></div>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-success btn-sm"><i class="bi bi-check2-circle me-2"></i>Fulfill Order</button>
+                                <button class="btn btn-outline-secondary btn-sm">View Items</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+        </div>
     <?php endif; ?>
 </div>
 
-</body>
-</html>
+<?php require_once '../includes/footer.php'; ?>
