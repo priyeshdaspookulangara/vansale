@@ -21,69 +21,78 @@ requireRole(['Super Admin', 'Accountant']);
     <style>
         .card-menu { transition: transform 0.2s; cursor: pointer; text-decoration: none; color: inherit; }
         .card-menu:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .icon-box { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 12px; margin-bottom: 1rem; }
+        .icon-box { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 10px; margin-bottom: 0.8rem; }
+        .section-title { border-left: 4px solid #007bff; padding-left: 10px; margin-bottom: 1.5rem; }
     </style>
 </head>
-<body class="bg-light">
+<body class="bg-light pb-5">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" href="#">Van Sales ERP</a>
         <div class="d-flex align-items-center">
-            <span class="text-white-50 me-3 small">Welcome, <?= htmlspecialchars($_SESSION['username']) ?> (<?= $_SESSION['role'] ?>)</span>
+            <span class="text-white-50 me-3 small">Welcome, <?= htmlspecialchars($_SESSION['username']) ?></span>
             <a href="../auth_check.php?logout=1" class="btn btn-outline-light btn-sm">Logout</a>
         </div>
     </div>
 </nav>
 
 <div class="container my-5">
-    <h2 class="mb-4">Admin Control Panel</h2>
 
-    <div class="row g-4">
-        <!-- Masters & Configuration -->
-        <div class="col-md-4">
-            <a href="../coa.php" class="card card-menu h-100 border-0 shadow-sm p-4 text-center">
-                <div class="icon-box bg-primary text-white mx-auto"><i class="bi bi-diagram-3 fs-3"></i></div>
-                <h5>Chart of Accounts</h5>
-                <p class="text-muted small">Manage account heads and financial hierarchy.</p>
+    <!-- ACCOUNTING SECTION -->
+    <h4 class="section-title">Accounts & Finance</h4>
+    <div class="row g-4 mb-5">
+        <div class="col-6 col-md-3">
+            <a href="../coa.php" class="card card-menu h-100 border-0 shadow-sm p-3 text-center">
+                <div class="icon-box bg-primary text-white mx-auto"><i class="bi bi-diagram-3 fs-4"></i></div>
+                <h6 class="mb-0">Chart of Accounts</h6>
             </a>
         </div>
-
-        <!-- Inventory -->
-        <div class="col-md-4">
-            <a href="../stock_transfer.php" class="card card-menu h-100 border-0 shadow-sm p-4 text-center">
-                <div class="icon-box bg-warning text-dark mx-auto"><i class="bi bi-truck fs-3"></i></div>
-                <h5>Stock Transfer</h5>
-                <p class="text-muted small">Move stock from Warehouse to field Vans.</p>
+        <div class="col-6 col-md-3">
+            <a href="../vouchers.php" class="card card-menu h-100 border-0 shadow-sm p-3 text-center">
+                <div class="icon-box bg-success text-white mx-auto"><i class="bi bi-receipt fs-4"></i></div>
+                <h6 class="mb-0">Manual Vouchers</h6>
             </a>
         </div>
-
-        <!-- Accounting -->
-        <div class="col-md-4">
-            <a href="../vouchers.php" class="card card-menu h-100 border-0 shadow-sm p-4 text-center">
-                <div class="icon-box bg-success text-white mx-auto"><i class="bi bi-receipt fs-3"></i></div>
-                <h5>Manual Vouchers</h5>
-                <p class="text-muted small">Record Receipt, Payment, and Journal entries.</p>
+        <div class="col-6 col-md-3">
+            <a href="day_book.php" class="card card-menu h-100 border-0 shadow-sm p-3 text-center">
+                <div class="icon-box bg-dark text-white mx-auto"><i class="bi bi-journal-text fs-4"></i></div>
+                <h6 class="mb-0">Day Book</h6>
             </a>
         </div>
-
-        <!-- Reports -->
-        <div class="col-md-4">
-            <a href="../trial_balance.php" class="card card-menu h-100 border-0 shadow-sm p-4 text-center">
-                <div class="icon-box bg-info text-white mx-auto"><i class="bi bi-calculator fs-3"></i></div>
-                <h5>Trial Balance</h5>
-                <p class="text-muted small">Verify accounting accuracy and balances.</p>
-            </a>
-        </div>
-
-        <div class="col-md-4">
-            <a href="../gstr1_b2b.php" class="card card-menu h-100 border-0 shadow-sm p-4 text-center">
-                <div class="icon-box bg-danger text-white mx-auto"><i class="bi bi-file-earmark-bar-graph fs-3"></i></div>
-                <h5>GSTR-1 (B2B)</h5>
-                <p class="text-muted small">Tax compliance and B2B sales extracts.</p>
+        <div class="col-6 col-md-3">
+            <a href="../trial_balance.php" class="card card-menu h-100 border-0 shadow-sm p-3 text-center">
+                <div class="icon-box bg-info text-white mx-auto"><i class="bi bi-calculator fs-4"></i></div>
+                <h6 class="mb-0">Trial Balance</h6>
             </a>
         </div>
     </div>
+
+    <!-- SALES & INVENTORY SECTION -->
+    <h4 class="section-title">Sales & Operations</h4>
+    <div class="row g-4 mb-5">
+        <div class="col-6 col-md-3">
+            <a href="../stock_transfer.php" class="card card-menu h-100 border-0 shadow-sm p-3 text-center">
+                <div class="icon-box bg-warning text-dark mx-auto"><i class="bi bi-truck fs-4"></i></div>
+                <h6 class="mb-0">Stock Transfer</h6>
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a href="../gstr1_b2b.php" class="card card-menu h-100 border-0 shadow-sm p-3 text-center">
+                <div class="icon-box bg-danger text-white mx-auto"><i class="bi bi-file-earmark-bar-graph fs-4"></i></div>
+                <h6 class="mb-0">GSTR-1 Report</h6>
+            </a>
+        </div>
+        <?php if ($_SESSION['role'] === 'Super Admin'): ?>
+        <div class="col-6 col-md-3">
+            <a href="../salesman/pos_terminal.php" class="card card-menu h-100 border-0 shadow-sm p-3 text-center">
+                <div class="icon-box bg-secondary text-white mx-auto"><i class="bi bi-pc-display fs-4"></i></div>
+                <h6 class="mb-0">POS Terminal</h6>
+            </a>
+        </div>
+        <?php endif; ?>
+    </div>
+
 </div>
 
 </body>

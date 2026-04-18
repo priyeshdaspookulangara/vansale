@@ -41,4 +41,32 @@ class AccountingReportManager {
         $stmt->execute([$asOfDate]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * Generate Day Book for a specific date.
+     * Shows all transactions in chronological order.
+     */
+    public function getDayBook($date) {
+        $sql = "
+            SELECT
+                je.id as entry_id,
+                je.entry_date,
+                je.reference_no,
+                je.description,
+                je.source_type,
+                ji.debit,
+                ji.credit,
+                ah.name as account_name,
+                ah.code as account_code
+            FROM journal_entries je
+            JOIN journal_items ji ON je.id = ji.journal_entry_id
+            JOIN account_heads ah ON ji.account_id = ah.id
+            WHERE je.entry_date = ?
+            ORDER BY je.created_at ASC, ji.debit DESC
+        ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$date]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
